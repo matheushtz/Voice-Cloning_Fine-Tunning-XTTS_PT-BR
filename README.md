@@ -1,11 +1,11 @@
-# XTTS v2 Fine-Tuning - Início Rápido (a partir da raiz)
+# XTTS v2 Fine-Tuning Coqui TTS - PT_BR
 
 ## Estrutura
 ```
 TTS-VOICE-TRAINING/
 ├── dataset/
-│   ├── wavs/ (0001.wav até 0088.wav)
-│   └── metadata.csv
+│   ├── wav/ 0001.wav até 0088.wav
+│   └── metadata_f.csv
 ├── tts_dataset_builder/ (projeto interno)
 ├── quickstart.py ← Execute a partir daqui
 ├── install.py
@@ -13,6 +13,17 @@ TTS-VOICE-TRAINING/
 ├── train_xtts.py
 └── inference.py
 ```
+
+### metadata_f.csv: (Transcrição)
+audio_file|text
+wav/0001.wav|Coração é o músculo mais forte.
+wav/0002.wav|Por que não ir beber leite quente então?
+wav/0003.wav|Primeiro lutamos, depois comemos.
+wav/0004.wav|Meu escudo é minha espada.
+[...]
+
+### wav:
+'codec PCM' 'bit 16' Output Track 'Mono' Audio normalization: Standard Sample peak program Target '-3dbfs'
 
 ## Executar (4 passos)
 
