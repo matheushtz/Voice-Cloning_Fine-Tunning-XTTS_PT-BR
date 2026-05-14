@@ -14,19 +14,23 @@ TTS-VOICE-TRAINING/
 └── inference.py
 ```
 
-### metadata_f.csv: (Transcrição)
-audio_file|text
-wav/0001.wav|Coração é o músculo mais forte.
-wav/0002.wav|Por que não ir beber leite quente então?
-wav/0003.wav|Primeiro lutamos, depois comemos.
-wav/0004.wav|Meu escudo é minha espada.
+### metadata_f.csv
+
+| audio_file | text |
+|---|---|
+| wav/0001.wav | Coração é o músculo mais forte. |
+| wav/0002.wav | Por que não ir beber leite quente então? |
+| wav/0003.wav | Primeiro lutamos, depois comemos. |
+| wav/0004.wav | Meu escudo é minha espada. |
 [...]
 
 ### wav:
-codec: 'PCM 16-bit'
-Output Track: 'Mono'
-Audio normalization: Standard Sample peak program Target '-3dbfs'
-Target Sample rate: '24000 Hz'
+(pré requisito: ffmpeg instalado)
+Codec: PCM
+Bit depth: 16-bit
+Sample rate: 24000 Hz
+Channels: 1 (mono)
+ffmpeg -i input.wav -ac 1 -ar 24000 -sample_fmt s16 output.wav
 
 ## Executar (4 passos)
 
