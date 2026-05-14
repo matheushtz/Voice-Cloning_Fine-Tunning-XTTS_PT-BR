@@ -23,7 +23,10 @@ wav/0004.wav|Meu escudo é minha espada.
 [...]
 
 ### wav:
-'codec PCM' 'bit 16' Output Track 'Mono' Audio normalization: Standard Sample peak program Target '-3dbfs'
+codec: 'PCM 16-bit'
+Output Track: 'Mono'
+Audio normalization: Standard Sample peak program Target '-3dbfs'
+Target Sample rate: '24000 Hz'
 
 ## Executar (4 passos)
 
