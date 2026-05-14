@@ -67,7 +67,7 @@ class MetadataBuilder:
                 continue
 
             clip_id = item.wav_path.stem
-            rel_path = f"wavs/{item.wav_path.name}"
+            rel_path = f"wav/{item.wav_path.name}"
 
             rows_piper.append((clip_id, cleaned))
             rows_coqui.append((rel_path, cleaned, speaker_id))
