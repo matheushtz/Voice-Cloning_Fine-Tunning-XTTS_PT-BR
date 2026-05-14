@@ -1,0 +1,155 @@
+================================================================================
+XTTS v2 FINE-TUNING - GUIA DE INICIO RAPIDO
+================================================================================
+
+Seu dataset esta pronto (88 clips do Braum em PT-BR).
+Este projeto treina um modelo TTS customizado e gera audio sintetizado.
+
+================================================================================
+PASSO 1: INSTALAR (primeira vez - 5-15 minutos)
+================================================================================
+
+Abra PowerShell e rode:
+
+  python install.py
+
+O script vai:
+- Instalar PyTorch (com CUDA se tiver GPU NVIDIA)
+- Instalar Coqui TTS
+- Baixar modelo XTTS v2
+- Verificar tudo
+
+Se vir "Instalacao concluida com sucesso!" -> OK!
+
+================================================================================
+PASSO 2: VALIDAR DATASET (2 minutos)
+================================================================================
+
+  python prepare_dataset.py
+
+O script vai:
+- Verificar todos os 88 WAVs
+- Converter para 24kHz (requisito XTTS)
+- Gerar relatorio
+
+Output esperado:
+  Total de clips: 88
+  Clips validos: 88
+  ✓ Dataset valido com 88 clips
+
+================================================================================
+PASSO 3: TREINAR MODELO (10-90 minutos)
+================================================================================
+
+  python train_xtts.py
+
+O script vai:
+- Fine-tunar o XTTS v2
+- Salvar checkpoints
+- Mostrar progresso
+
+Com GPU NVIDIA: 10-20 minutos
+Sem GPU (CPU): 45-90 minutos
+
+Output esperado:
+  Epoca 1/20: Train Loss: 2.54 | Val Loss: 2.12
+  Epoca 2/20: Train Loss: 2.10 | Val Loss: 1.95
+  ...
+  Epoca 20/20: Train Loss: 0.98 | Val Loss: 1.05
+  ✓ FINE-TUNING CONCLUIDO
+
+================================================================================
+PASSO 4: GERAR AUDIO (< 5 minutos)
+================================================================================
+
+  python inference.py
+
+O script vai:
+- Carregar modelo treinado
+- Sintetizar: "Boa tarde, Torneirinha"
+- Salvar em output/output.wav
+
+Output esperado:
+  XTTS v2 - INFERENCIA COM VOZ FINE-TUNADA
+  ...
+  Audio salvo: output/output.wav
+  ✓ SUCESSO!
+
+ARQUIVO FINAL: output/output.wav
+
+================================================================================
+ATALHO: EXECUTAR TUDO DE UMA VEZ
+================================================================================
+
+Ou simplesmente rode:
+
+  python quickstart.py
+
+Isto executa todos os 4 passos automaticamente.
+
+================================================================================
+CUSTOMIZAR TEXTO GERADO
+================================================================================
+
+Se quiser gerar outra frase:
+
+1. Abra inference.py em editor de texto
+2. Procure por: text = "Boa tarde, Torneirinha"
+3. Mude para: text = "Sua nova frase aqui"
+4. Salve
+5. Rode: python inference.py
+
+================================================================================
+TROUBLESHOOTING RAPIDO
+================================================================================
+
+Erro: "CUDA not available"
+-> Normal se nao tem GPU NVIDIA
+-> Script usa CPU automaticamente (mais lento)
+
+Erro: "CUDA out of memory"
+-> Reduza batch_size em train_xtts.py (de 4 para 2)
+
+Erro: "Dataset validation fails"
+-> Verifique que dataset/wavs/ tem os WAVs
+-> Verifique que dataset/metadata.csv tem formato: 0001|texto
+
+Treino muito lento
+-> Normal na CPU
+-> Com GPU deveria ser 10-20 min
+
+================================================================================
+ESTRUTURA FINAL
+================================================================================
+
+tts_dataset_builder/
+  ├── dataset/              (seu dataset - 88 clips)
+  ├── output/
+  │   └── output.wav        (← SEU AUDIO FINAL!)
+  ├── checkpoints/          (modelos treinados)
+  ├── models/               (cache XTTS v2)
+  └── [scripts Python]
+
+================================================================================
+DOCUMENTACAO COMPLETA
+================================================================================
+
+Leia estes arquivos para mais detalhes:
+
+  USAGE.md    - Guia passo-a-passo completo
+  README.md   - Documentacao tecnica
+  FAQ.md      - Perguntas frequentes
+  EXAMPLES.md - Exemplos de codigo
+  INDEX.md    - Indice de arquivos
+
+================================================================================
+RESUMO PARA COMEÇAR AGORA
+================================================================================
+
+1. python install.py         (1ª vez)
+2. python quickstart.py      (ou rode cada script individualmente)
+3. Verifique: output/output.wav
+
+PRONTO! Você tem um modelo TTS treinado! 🎉
+
+================================================================================

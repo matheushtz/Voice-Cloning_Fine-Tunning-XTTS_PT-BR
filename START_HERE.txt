@@ -1,0 +1,224 @@
+================================================================================
+XTTS v2 FINE-TUNING - INICIAR DO ZERO (WINDOWS)
+================================================================================
+
+Seu dataset está pronto (88 clips do Braum em PT-BR).
+Execute os comandos abaixo sequencialmente no PowerShell.
+
+================================================================================
+DIRETÓRIO
+================================================================================
+
+Abra PowerShell e navegue até:
+  cd D:\User\Desktop\TTS-VOICE-TRAINING
+
+================================================================================
+PASSO 1: INSTALAR DEPENDÊNCIAS (primeira vez - 10-20 minutos)
+================================================================================
+
+  python install.py
+
+CHATGPT:
+pip uninstall torch torchaudio torchvision -y
+pip install torch==2.3.1+cu118 torchaudio==2.3.1+cu118 torchvision==0.18.1+cu118 --index-url https://download.pytorch.org/whl/cu118
+# CONFLITO DE VERSOES
+
+Isso vai:
+- Atualizar pip
+- Instalar PyTorch + CUDA (se GPU NVIDIA disponível)
+- Instalar Coqui TTS
+- Baixar modelo XTTS v2
+- Verificar tudo
+
+ESPERADO:
+  "Instalacao concluida com sucesso!"
+  "PyTorch version: 2.x.x"
+  "CUDA available: True" (se tiver GPU) ou False (CPU)
+
+================================================================================
+PASSO 2: VALIDAR DATASET (2-5 minutos)
+================================================================================
+
+  python prepare_dataset.py
+
+Isso vai:
+- Verificar os 88 WAVs em dataset/wav/
+- Converter para 24kHz (requisito XTTS)
+- Gerar relatório
+
+ESPERADO:
+  Total de clips: 88
+  Clips validos: 88
+  Duracao total: ~XXXs
+  ✓ Dataset valido com 88 clips
+
+================================================================================
+PASSO 3: TREINAR MODELO (10-90 minutos conforme GPU/CPU)
+================================================================================
+
+  python train_xtts.py
+
+Isso vai:
+- Fine-tunar XTTS v2 com seu dataset
+- Salvar checkpoints
+- Mostrar progresso
+
+COM GPU NVIDIA: ~10-20 minutos
+APENAS CPU: ~45-90 minutos
+
+ESPERADO:
+  Epoca 1/20: Train Loss: 2.54 | Val Loss: 2.12
+  Epoca 2/20: Train Loss: 2.10 | Val Loss: 1.95
+  ...
+  Epoca 20/20: Train Loss: 0.98 | Val Loss: 1.05
+  
+  ✓ FINE-TUNING CONCLUIDO
+  Melhor validacao loss: 1.05
+  Checkpoints salvos em: checkpoints/
+
+================================================================================
+PASSO 4: GERAR ÁUDIO (1-5 minutos)
+================================================================================
+
+  python inference.py
+
+Isso vai:
+- Carregar modelo treinado
+- Sintetizar: "Boa tarde, Torneirinha"
+- Salvar em tts_dataset_builder/output/output.wav
+
+ESPERADO:
+  XTTS v2 - INFERENCIA COM VOZ FINE-TUNADA
+  Sintetizando: Boa tarde, Torneirinha
+  Tempo de sintese: X.XXs
+  Audio salvo: tts_dataset_builder/output/output.wav
+  
+  ✓ SUCESSO!
+  Output: tts_dataset_builder/output/output.wav
+
+================================================================================
+ATALHO: EXECUTAR TUDO DE UMA VEZ
+================================================================================
+
+Ou se preferir fazer tudo em um comando:
+
+  python quickstart.py
+
+Executa todos os 4 passos automaticamente e mostra progresso.
+
+================================================================================
+CUSTOMIZAR TEXTO GERADO
+================================================================================
+
+Se quiser gerar outra frase ao invés de "Boa tarde, Torneirinha":
+
+1. Abra em editor de texto:
+   tts_dataset_builder/inference.py
+
+2. Procure por:
+   text = "Boa tarde, Torneirinha"
+
+3. Mude para:
+   text = "Sua nova frase aqui"
+
+4. Salve o arquivo
+
+5. Rode:
+   python inference.py
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+ERRO: "ModuleNotFoundError: No module named 'librosa'"
+-> Rodar: python install.py
+-> Aguarde conclusão (pode levar 10-20 min)
+
+ERRO: "CUDA out of memory"
+-> Editar: tts_dataset_builder/train_xtts.py
+-> Procurar: trainer.train(epochs=20, learning_rate=1e-4, batch_size=4)
+-> Mudar: batch_size=4 para batch_size=2
+-> Salvar
+-> Rodar: python train_xtts.py
+
+ERRO: "Nenhuma pasta 'wavs' ou 'wav' encontrada"
+-> Verificar que dataset/wav/ existe e tem WAVs
+-> Rodar: python prepare_dataset.py
+
+TREINO MUITO LENTO (30+ minutos)
+-> Normal na CPU
+-> Com GPU: deveria ser 10-20 min
+-> Verificar que CUDA foi detectado em install.py
+
+================================================================================
+ARQUITETURA DO PROJETO
+================================================================================
+
+TTS-VOICE-TRAINING/
+├── dataset/
+│   ├── wav/
+│   │   ├── 0001.wav
+│   │   ├── 0002.wav
+│   │   └── ... até 0088.wav
+│   └── metadata.csv
+│
+├── tts_dataset_builder/
+│   ├── install.py (chamado por: python install.py)
+│   ├── prepare_dataset.py (chamado por: python prepare_dataset.py)
+│   ├── train_xtts.py (chamado por: python train_xtts.py)
+│   ├── inference.py (chamado por: python inference.py)
+│   ├── output/
+│   │   └── output.wav ← SEU AUDIO FINAL!
+│   ├── checkpoints/
+│   │   ├── best_model.pt
+│   │   ├── epoch_5.pt
+│   │   └── ...
+│   └── [arquivos Python internos]
+│
+├── install.py (wrapper que chama tts_dataset_builder/install.py)
+├── prepare_dataset.py (wrapper)
+├── train_xtts.py (wrapper)
+├── inference.py (wrapper)
+├── quickstart.py (wrapper que executa todos)
+└── README.md
+
+Os arquivos na raiz são wrappers que executam os scripts internos.
+
+================================================================================
+PRÓXIMOS PASSOS APÓS GERAR AUDIO
+================================================================================
+
+Seu arquivo final está em:
+  tts_dataset_builder/output/output.wav
+
+Você pode:
+1. Ouvir em qualquer player de áudio
+2. Converter para MP3 (com ffmpeg):
+   ffmpeg -i output.wav -b:a 192k output.mp3
+3. Usar em sua aplicação
+4. Retreinar com mais dados adicionando novos WAVs
+
+================================================================================
+DOCUMENTAÇÃO COMPLETA
+================================================================================
+
+Para mais detalhes, veja:
+  tts_dataset_builder/README.md
+  tts_dataset_builder/USAGE.md
+  tts_dataset_builder/FAQ.md
+  tts_dataset_builder/EXAMPLES.md
+
+================================================================================
+RESUMO EXECUTIVO
+================================================================================
+
+1ª vez:
+  python install.py
+
+Depois, sempre:
+  python quickstart.py
+
+Output:
+  tts_dataset_builder/output/output.wav
+
+================================================================================

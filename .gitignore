@@ -1,0 +1,77 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# TTS Models e Checkpoints (arquivos grandes)
+*.pth
+*.safetensors
+*.bin
+model.pth
+best_model.pth
+best_model_*.pth
+dvae.pth
+mel_stats.pth
+
+# Treinamento (remover diretórios completos de runs anteriores)
+tts_dataset_builder/xtts_training/run/
+xtts_training/run/
+
+# Output e logs
+output/logs/
+output/wavs/
+tts_dataset_builder/output/logs/
+tts_dataset_builder/output/wavs/
+
+# Áudio
+*.wav
+*.mp3
+
+# Dataset grande
+dataset/mp4/
+dataset/wav/
+
+# Cache e arquivos temporários
+*.cache
+*.tmp
+*.temp
+.cache/
+
+# OS
+Thumbs.db
+.AppleDouble
+.LSOverride
