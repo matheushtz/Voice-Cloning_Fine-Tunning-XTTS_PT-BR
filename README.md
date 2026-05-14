@@ -24,13 +24,17 @@ TTS-VOICE-TRAINING/
 | wav/0004.wav | Meu escudo é minha espada. |
 [...]
 
-### wav:
-(pré requisito: ffmpeg instalado)
-Codec: PCM
-Bit depth: 16-bit
-Sample rate: 24000 Hz
-Channels: 1 (mono)
+### WAV:
+**Pré-requisito:** ffmpeg instalado
+
+- Codec: PCM
+- Bit depth: 16-bit
+- Sample rate: 24000 Hz
+- Channels: 1 (mono)
+
+```bash
 ffmpeg -i input.wav -ac 1 -ar 24000 -sample_fmt s16 output.wav
+```
 
 ## Executar (4 passos)
 
